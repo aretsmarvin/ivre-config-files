@@ -54,7 +54,7 @@ tcp_scan(){
 			massPorts=$(echo $ports | sed 's/\s\+/,/g')
 			echo $massPorts
 			masscan -c tcpscan.conf -iL $ips_to_scan -oL $output_scan_folder/mass-$stamp.txt -p $massPorts
-        		cd hostScans/
+        		cd $output_scan_folder
 			./cleanFile.sh mass-$stamp.txt mass-$stamp-cleaned.txt
 			cd /home/ubuntu	
 			ivre runscans --categories mass-$choice-$stamp --file $output_scan_folder/mass-$stamp-cleaned.txt --nmap-template $choice --output XMLFork --processes $processes 

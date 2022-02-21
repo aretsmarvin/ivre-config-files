@@ -29,9 +29,13 @@ general_scan(){
 		cd $output_scan_folder
 		./cleanFile.sh massGeneral-$stamp.txt massGeneral-$stamp-cleaned.txt #i cleanFile.sh takes two arguments. Which file to clean and where to output the cleaned file. Also shuffles the ips around. 
 		cd /home/ubuntu
-		ivre runscans --categories generalScan-$stamp --file $output_scan_folder/massGeneral-$stamp-cleaned.txt --nmap-template service --output XMLFork --processes $processes
-		ivre scan2db -c service -r /home/ubuntu/scans/generalScan-$stamp
-		ivre db2view nmap --category service 
+		if [ -s $output_scan_folder/massGeneral-$stamp-cleaned.txt ]; then
+			ivre runscans --categories generalScan-$stamp --file $output_scan_folder/massGeneral-$stamp-cleaned.txt --nmap-template service --output XMLFork --processes $processes
+			ivre scan2db -c service -r /home/ubuntu/scans/generalScan-$stamp
+			ivre db2view nmap --category service 
+		else
+                        echo "Scan result is empty"
+                fi
 	else 
 		echo "Aborting scan"
 	fi
@@ -56,10 +60,14 @@ tcp_scan(){
 			masscan -c tcpscan.conf -iL $ips_to_scan -oL $output_scan_folder/mass-$stamp.txt -p $massPorts
         		cd $output_scan_folder
 			./cleanFile.sh mass-$stamp.txt mass-$stamp-cleaned.txt
-			cd /home/ubuntu	
-			ivre runscans --categories mass-$choice-$stamp --file $output_scan_folder/mass-$stamp-cleaned.txt --nmap-template $choice --output XMLFork --processes $processes 
-			ivre scan2db -c $choice -r /home/ubuntu/scans/mass-$choice-$stamp
-			ivre db2view nmap --category $choice
+			if [ -s $output_scan_folder/mass-$stamp-cleaned.txt ]; then
+				cd /home/ubuntu
+				ivre runscans --categories mass-$choice-$stamp --file $output_scan_folder/mass-$stamp-cleaned.txt --nmap-template $choice --output XMLFork --processes $processes 
+				ivre scan2db -c $choice -r /home/ubuntu/scans/mass-$choice-$stamp
+				ivre db2view nmap --category $choice
+			else
+                                echo "Scan result is empty"
+                        fi
 		else 
 			echo "Aborting scan"
 		fi

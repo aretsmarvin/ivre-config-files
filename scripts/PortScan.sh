@@ -104,6 +104,11 @@ udp_scan(){
     fi
 }
 
+if [ "$EUID" -ne 0 ]
+  then echo "Please run as root (sudo)"
+  exit
+fi
+
 echo "Do you want to run a general (g), specific TCP (t) or UDP (u) port scan?"
 
 read type 

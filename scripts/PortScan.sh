@@ -93,8 +93,7 @@ udp_scan(){
         	ports=$(grep -A 7 "NMAP_SCAN_TEMPLATES\s*\[\"$choice\"\]" $scan_templates | grep 'ports\s*=\s*"\(.*\)"*' | grep '[0-9]*' -o)
         	zmapPorts=$(echo $ports | sed 's/\s\+/,/g')
         	echo $zmapPorts
-        	#zmap scan doen
-		zmap -M udp -p $zmapPorts --whitelist-file=$ips_to_scan --probe-args=file:/home/ubuntu/zmap-3.0.0-beta1/examples/udp-probes/$probe --blacklist-file=/home/ubuntu/exlude.txt -o $output_scan_folder/mu-$stamp.txt	
+		zmap -M udp -p $zmapPorts --whitelist-file=$ips_to_scan --probe-args=file:/usr/share/doc/zmap/examples/udp-probes/$probe --blacklist-file=/home/ubuntu/exlude.txt -o $output_scan_folder/mu-$stamp.txt	
         	ivre runscans --categories ss-$stamp --file $output_scan_folder/mu-$stamp.txt --nmap-template $choice --output CommandLine --processes $processes
     	else 
 	    echo "Aborting scan"

@@ -122,5 +122,5 @@ elif [ "$type" = "udp" ] || [ "$type" = "u" ]
 then 
 	udp_scan
 else
-	echo "Did not recognise input. Please try general (g) or specific (s)."
+	echo "Did not recognise input. Please try general (g), tcp (t) or udp (u)."
 fi

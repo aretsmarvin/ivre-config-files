@@ -6,6 +6,11 @@
 # Another trick that might be useful is to change the starting point. The first 6 scans in /etc/ivre.conf are "problematic" (see readme)
 # thus changing i=0 to i=6 will skip these scans so they can ran manually. 
 
+if [ "$EUID" -ne 0 ]
+  then echo "Please run as root (sudo)"
+  exit
+fi
+
 tcp_targets=($(grep -B 4 'scans\s*=\s*"SV"' /etc/ivre.conf | grep 'NMAP_SCAN_TEMPLATES' | grep '".*"' -o | sed 's/.//;s/.$//'))
 length_tcp=${#tcp_targets[@]} # list of nmap scan templates
 for ((i=0; i != length_tcp; i++)) do # change i=0 to i=6 to skip the problematic scans. 

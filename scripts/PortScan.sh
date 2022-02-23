@@ -5,6 +5,7 @@ output=port$1-$stamp # This is used to distinguish the scans
 # Variables that can be used to point towards various files  
 scan_templates=/etc/ivre.conf # This is the default location of nmap scan templates. 
 output_scan_folder=/home/ubuntu/hostScans # Folder created to place the masscan/zmap results
+retention_time=10 # Retention time of files in output_scan_folder folder
 processes=40 # Default is 30 as defined by IVRE. 40 seems to work as well without crashing. Adjust accordingly depending on cpu/ram. Too much procceses might also make the scans very loud.  
 ips_to_scan=/home/ubuntu/ips.txt
 
@@ -107,6 +108,7 @@ if [ "$EUID" -ne 0 ]
   then echo "Please run as root (sudo)"
   exit
 fi
+find /home/ubuntu/hostScans -mindepth 1 -mtime +$retention_time -delete
 
 echo "Do you want to run a general (g), specific TCP (t) or UDP (u) port scan?"
 

@@ -28,7 +28,7 @@ general_scan(){
 		echo "Done with Masscan. Cleaning up the output so Nmap can read it"
 		echo "-------------------------------------------------------------"
 		cd $output_scan_folder
-		./cleanMasscanFile.sh massGeneral-$stamp.txt massGeneral-$stamp-cleaned.txt #i cleanMasscanFile.sh takes two arguments. Which file to clean and where to output the cleaned file. Also shuffles the ips around. 
+		/home/ubuntu/cleanMasscanFile.sh massGeneral-$stamp.txt massGeneral-$stamp-cleaned.txt #i cleanMasscanFile.sh takes two arguments. Which file to clean and where to output the cleaned file. Also shuffles the ips around. 
 		cd /home/ubuntu
 		if [ -s $output_scan_folder/massGeneral-$stamp-cleaned.txt ]; then
 			ivre runscans --categories generalScan-$stamp --file $output_scan_folder/massGeneral-$stamp-cleaned.txt --nmap-template service --output XMLFork --processes $processes
@@ -60,7 +60,7 @@ tcp_scan(){
 			echo $massPorts
 			masscan -c tcpscan.conf -iL $ips_to_scan -oL $output_scan_folder/mass-$stamp.txt -p $massPorts
         		cd $output_scan_folder
-			./cleanFile.sh mass-$stamp.txt mass-$stamp-cleaned.txt
+			/home/ubuntu/cleanMasscanFile.sh mass-$stamp.txt mass-$stamp-cleaned.txt
 			if [ -s $output_scan_folder/mass-$stamp-cleaned.txt ]; then
 				cd /home/ubuntu
 				ivre runscans --categories mass-$choice-$stamp --file $output_scan_folder/mass-$stamp-cleaned.txt --nmap-template $choice --output XMLFork --processes $processes 
